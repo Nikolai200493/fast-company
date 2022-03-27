@@ -30,30 +30,9 @@ const Users = () => {
       }
     }
 
-    return users.length ? (
-      <span className="badge bg-primary">
-        {users.length + ' ' + personWord + ' ' + partyWord + ' c тобой сегодня'}
-      </span>
-    ) : (
-      <span className="badge bg-danger">Никто с тобой не тусанет</span>
-    )
-  }
-
-  const getQualityClasses = (qualityName) => {
-    let qualitiesClasses = 'badge m-1 '
-    if (qualityName === 'Нудила') {
-      return (qualitiesClasses += 'bg-primary')
-    } else if (qualityName === 'Неуверенный') {
-      return (qualitiesClasses += 'bg-dark')
-    } else if (qualityName === 'Странный') {
-      return (qualitiesClasses += 'bg-secondary')
-    } else if (qualityName === 'Троль') {
-      return (qualitiesClasses += 'bg-success')
-    } else if (qualityName === 'Красавчик') {
-      return (qualitiesClasses += 'bg-info')
-    } else if (qualityName === 'Алкоголик') {
-      return (qualitiesClasses += 'bg-danger')
-    }
+    return users.length
+      ? users.length + ' ' + personWord + ' ' + partyWord + ' c тобой сегодня'
+      : 'Никто с тобой не тусанет'
   }
 
   const tableUsers = users.map((user) => {
@@ -65,7 +44,7 @@ const Users = () => {
             return (
               <span
                 key={quality.name}
-                className={getQualityClasses(quality.name)}
+                className={'badge m-1 bg-' + quality.color}
               >
                 {quality.name}
               </span>
@@ -89,7 +68,13 @@ const Users = () => {
 
   return (
     <>
-      <h2>{renderPhrase(users.length)}</h2>
+      <h2>
+        <span
+          className={'badge bg-' + (users.length > 0 ? 'primary' : 'danger')}
+        >
+          {renderPhrase(users.length)}
+        </span>
+      </h2>
       <table className="table">
         <thead>
           {users.length === 0 ? null : (
