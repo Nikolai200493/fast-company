@@ -1,10 +1,10 @@
 import React from 'react'
 
-const BookMark = (props) => {
-  let classes = props.status ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'
+const BookMark = ({ status, ...rest }) => {
+  let classes = status ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'
   return (
     <td>
-      <button onClick={() => props.onBookmark(props.id)}>
+      <button {...rest}>
         <i className={classes}></i>
       </button>
     </td>

@@ -2,35 +2,32 @@ import React from 'react'
 import BookMark from './bookmark'
 import Quality from './quality'
 
-const User = (props) => {
+const User = ({
+  _id,
+  name,
+  qualities,
+  profession,
+  completedMeetings,
+  rate,
+  onDelete,
+  bookmark,
+  onBookmark,
+}) => {
   return (
     <>
-      <tr key={props.user._id}>
-        <td>{props.user.name}</td>
+      <tr key={_id}>
+        <td>{name}</td>
         <td>
-          {props.user.qualities.map((quality) => {
-            return (
-              <Quality
-                color={quality.color}
-                name={quality.name}
-                key={quality._id}
-              />
-            )
+          {qualities.map((quality) => {
+            return <Quality key={quality._id} {...quality} />
           })}
         </td>
-        <td>{props.user.profession.name}</td>
-        <td>{props.user.completedMeetings}</td>
-        <td>{props.user.rate + '/5'}</td>
-        <BookMark
-          onBookmark={props.onBookmark}
-          status={props.user.bookmark}
-          id={props.user._id}
-        />
+        <td>{profession.name}</td>
+        <td>{completedMeetings}</td>
+        <td>{rate + '/5'}</td>
+        <BookMark onClick={() => onBookmark(_id)} status={bookmark} />
         <td>
-          <button
-            onClick={() => props.onDelete(props.user._id)}
-            className="btn btn-danger"
-          >
+          <button onClick={() => onDelete(_id)} className="btn btn-danger">
             Удалить
           </button>
         </td>
