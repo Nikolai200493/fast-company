@@ -12,7 +12,7 @@ const User = ({
   rate,
   onDelete,
   bookmark,
-  onBookmark,
+  onBookmark
 }) => {
   return (
     <>
@@ -46,7 +46,7 @@ User.propTypes = {
   rate: PropTypes.number,
   onDelete: PropTypes.func.isRequired,
   bookmark: PropTypes.bool.isRequired,
-  onBookmark: PropTypes.func.isRequired,
+  onBookmark: PropTypes.func.isRequired
 }
 
 export default User
