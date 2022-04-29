@@ -1,17 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 const BookMark = ({ status, ...rest }) => {
-  const classes = status ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'
   return (
     <button {...rest}>
-      <i className={classes}></i>
+      <i className={'bi bi-bookmark' + (status ? '-heart-fill' : '')}></i>
     </button>
   )
 }
-
 BookMark.propTypes = {
-  status: PropTypes.bool.isRequired
+  status: PropTypes.bool
 }
 
 export default BookMark

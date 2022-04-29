@@ -5,15 +5,15 @@ import Quality from './quality'
 const QualitiesList = ({ qualities }) => {
   return (
     <>
-      {qualities.map((quality) => {
-        return <Quality key={quality._id} {...quality} />
-      })}
+      {qualities.map((qual) => (
+        <Quality key={qual._id} {...qual} />
+      ))}
     </>
   )
 }
 
 QualitiesList.propTypes = {
-  qualities: PropTypes.array.isRequired
+  qualities: PropTypes.array
 }
 
 export default QualitiesList

@@ -1,43 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 const SearchStatus = ({ length }) => {
   const renderPhrase = (number) => {
-    let personWord = 'человек'
-    let partyWord = 'тусанут'
-    if (number === 1) {
-      personWord = 'человек'
-      partyWord = 'тусанет'
-    } else if (number === 2 || number === 3 || number === 4) {
-      personWord = 'человека'
-      partyWord = 'тусанут'
-    } else if (number >= 20) {
-      const lastNum = number.toString().split('').length - 1
-      console.log(lastNum)
-      if (+lastNum === 2 || +lastNum === 3 || +lastNum === 4) {
-        personWord = 'человека'
-        partyWord = 'тусанут'
-      }
+    const lastOne = Number(number.toString().slice(-1))
+    if (number > 4 && number < 15) {
+      return 'человек тусанет'
     }
-
-    return length
-      ? number + ' ' + personWord + ' ' + partyWord + ' c тобой сегодня'
-      : 'Никто с тобой не тусанет'
+    if (lastOne === 1) return 'человек тусанет'
+    if ([2, 3, 4].indexOf(lastOne) >= 0) return 'человека тусанут'
+    return 'человек тусанет'
   }
-
   return (
-    <>
-      <h2>
-        <span className={'badge bg-' + (length > 0 ? 'primary' : 'danger')}>
-          {renderPhrase(length)}
-        </span>
-      </h2>
-    </>
+    <h2>
+      <span className={'badge ' + (length > 0 ? 'bg-primary' : 'bg-danger')}>
+        {length > 0
+          ? `${length + ' ' + renderPhrase(length)}   с тобой сегодня`
+          : 'Никто с тобой не тусанет'}
+      </span>
+    </h2>
   )
 }
-
 SearchStatus.propTypes = {
-  length: PropTypes.number.isRequired
+  length: PropTypes.number
 }
 
 export default SearchStatus
