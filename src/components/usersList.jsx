@@ -14,14 +14,8 @@ const UsersList = () => {
   const [selectedProf, setSelectedProf] = useState()
   const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc' })
   const pageSize = 8
-
   const [users, setUsers] = useState()
-
-  const [searchInput, setSearchInput] = useState('')
-
-  const handleChange = (e) => {
-    setSearchInput(e.target.value)
-  }
+  const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
     api.users.fetchAll().then((data) => setUsers(data))
@@ -47,15 +41,19 @@ const UsersList = () => {
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [selectedProf])
+  }, [selectedProf, searchQuery])
 
   const handleProfessionSelect = (item) => {
-    setSearchInput('')
+    if (searchQuery !== '') setSearchQuery('')
     setSelectedProf(item)
   }
 
+  const handleSearchQuery = ({ target }) => {
+    setSelectedProf(undefined)
+    setSearchQuery(target.value)
+  }
+
   const handlePageChange = (pageIndex) => {
-    setSearchInput('')
     setCurrentPage(pageIndex)
   }
   const handleSort = (item) => {
@@ -63,23 +61,16 @@ const UsersList = () => {
   }
 
   if (users) {
-    const filteredUsers = selectedProf
-      ? searchInput
-        ? users.filter((user) => {
-            return (
-              JSON.stringify(user.profession) ===
-                JSON.stringify(selectedProf) &&
-              user.name.toLowerCase().includes(searchInput.toLocaleLowerCase())
-            )
-          })
-        : users.filter((user) => {
-            return (
-              JSON.stringify(user.profession) === JSON.stringify(selectedProf)
-            )
-          })
-      : searchInput
+    const filteredUsers = searchQuery
+      ? users.filter(
+          (user) =>
+            user.name.toLowerCase().indexOf(searchQuery.toLowerCase()) !== -1
+        )
+      : selectedProf
       ? users.filter((user) => {
-          return user.name.toLowerCase().includes(searchInput.toLowerCase())
+          return (
+            JSON.stringify(user.profession) === JSON.stringify(selectedProf)
+          )
         })
       : users
 
@@ -87,7 +78,6 @@ const UsersList = () => {
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order])
     const usersCrop = paginate(sortedUsers, currentPage, pageSize)
     const clearFilter = () => {
-      setSearchInput('')
       setSelectedProf()
     }
 
@@ -110,9 +100,10 @@ const UsersList = () => {
           <SearchStatus length={count} />
           <input
             type="text"
+            name="searchQuery"
             id="search"
-            value={searchInput}
-            onChange={handleChange}
+            value={searchQuery}
+            onChange={handleSearchQuery}
             placeholder="Search..."
           />
           {count > 0 && (
