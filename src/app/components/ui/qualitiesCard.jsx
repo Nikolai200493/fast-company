@@ -17,7 +17,7 @@ const QualitiesCard = ({ data }) => {
   )
 }
 
-Qualities.propTypes = {
+QualitiesCard.propTypes = {
   data: PropTypes.array
 }
 
